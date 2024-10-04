@@ -1,2 +1,2 @@
-# ENPM693_Final_Project
+# Suricata_Rules
 This repository contains custom Suricata rules to detect malware within network traffic captured in PCAP files. Suricata is a powerful network threat detection engine capable of real-time intrusion detection (IDS), inline intrusion prevention (IPS), network security monitoring (NSM), and offline PCAP processing. These rules are tailored to enhance Suricata's ability to identify malicious activities by analyzing network traffic patterns and signatures specific to various malware families.
